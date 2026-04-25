@@ -52,14 +52,70 @@
             height: 100%;
             border: none;
         }
+        /* 側邊選單樣式 */
+        #side-menu {
+            position: fixed;
+            right: -300px; /* 初始隱藏在右側 */
+            top: 0;
+            width: 300px;
+            height: 100%;
+            background: rgba(0, 15, 30, 0.95);
+            color: white;
+            transition: right 0.3s ease;
+            z-index: 20;
+            padding: 80px 25px 40px 25px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            overflow-y: auto; /* 若文字較多可捲動 */
+            box-sizing: border-box;
+        }
+        #side-menu.open {
+            right: 0;
+        }
+        #side-menu h2 {
+            color: #00bfff;
+            border-bottom: 1px solid #00bfff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        #side-menu p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div id="canvas-container"></div>
+    <div id="side-menu">
+        <h2>物件設計理念</h2>
+        <p>本作品核心架構採用 Class（類別）來管理水族箱中的各種元素，包括魚類 (Fish)、海草 (Seagrass) 與氣泡 (Bubble)。透過類別封裝，讓每一條魚或每一株海草都能擁有獨立的座標、速度與色彩屬性。<h2>魚</h2>
+设定随机颜色和三种体型，並在数标靠近时会躲开。<h2>海草摆动</h2>利用 noise() 产生连续且平滑的数值，结合 lerp() 函数，模拟出受水流扰动的柔软感。透过 mousePressed() 事件侦测鼠标与 Bubble 物件间的距离（dist()），<h2>氣泡</h2>当使用者点击气泡时，会触发 pop.mp3 音效，提供即时的触觉与听觉回馈。<h2>作品蓝色气泡</h2>
+按下时使用iframe方式连线到该作品，不用离开主画面即可观看作品。</p>
+        
+        <h2>技术运用</h2>
+        <p><b>1. 物理模拟：</b>利用简谐运动 (sin) 产生 God Rays 光影效果，並透过二次曲线公式计算海草的柔软弯曲感。</p>
+        <p><b>2. 互动设计：</b>鼠标靠近时，海草会生成基于距离权重的物理偏移，营造被拨动的真实感。</p>
+        <p><b>3. 動態美學：</b>魚群色彩採用 HSB 模式隨機生成，確保視覺豐富度。</p>
+    </div>
     <div id="display-area">
         <button id="close-btn" onclick="document.getElementById('display-area').style.display='none'">✕ 關閉預覽</button>
         <iframe id="work-iframe" src="about:blank"></iframe>
     </div>
+    <script>
+        // 自動感應滑鼠位置來開關選單
+        document.addEventListener('mousemove', function(e) {
+            const menu = document.getElementById('side-menu');
+            const triggerWidth = 30; // 靠近右側 30px 時觸發
+            const menuWidth = 300;   // 選單寬度
+            
+            if (e.clientX > window.innerWidth - triggerWidth) {
+                menu.classList.add('open');
+            } else if (e.clientX < window.innerWidth - menuWidth) {
+                menu.classList.remove('open');
+            }
+        });
+    </script>
     <script src="sketch.js"></script>
 </body>
 </html>
